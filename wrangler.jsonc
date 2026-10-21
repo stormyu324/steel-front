@@ -1,0 +1,30 @@
+{
+  "name": "steel-front",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "Room"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "Room"
+      ]
+    }
+  ],
+  "routes": [
+    { "pattern": "games.stormnovalabs.com/rts", "zone_name": "stormnovalabs.com" },
+    { "pattern": "games.stormnovalabs.com/rts/*", "zone_name": "stormnovalabs.com" }
+  ],
+  "workers_dev": true
+}
