@@ -52,7 +52,11 @@ export class Room extends DurableObject {
       for (const s of this.peers(ws)) this.safeSend(s, msg);
     } else {
       const host = this.peers(ws).find(s => this.slotOf(s) === 0);
-      if (host) this.safeSend(host, '{"from":' + slot + ',"m":' + msg + '}');
+      if (!host) return;
+      // 先解析再重新序列化，防止加入方在原始字符串里拼出第二个 "from" 冒充别的座位
+      let m; try { m = JSON.parse(msg); } catch (e) { return; }
+      if (!m || typeof m !== 'object' || Array.isArray(m)) return;
+      this.safeSend(host, JSON.stringify({ from: slot, m }));
     }
   }
 
